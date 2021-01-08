@@ -1,0 +1,85 @@
+.activity-page{
+    width: 100%;
+}
+.activity-box{
+    width: 420px;
+    height: 400px;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 10px;
+    .des-box{
+        width: 100%;
+        .title{
+            text-align:left ;
+            color: #333333;
+        }
+        .des{
+            text-align: left;
+            color: #666666;
+            font-size: 14px;
+            line-height: 25px;
+        }
+    }
+    .car-bottom{
+      padding: 14px;
+      position: absolute;
+      width: 100%;
+      bottom: 0;
+      background-color: rgba(255, 255, 255,0.8);
+    }
+    .show{
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top:0;
+      background-color: rgba(255, 255, 255,0.5);
+      // border: 1px solid red;
+      opacity: 0;
+      .class-box{
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 270px;
+        height: 150px;
+        margin:auto auto;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        // button{
+        //   margin-left: 10px;
+        // }
+      }
+      // transition: all 0.5s;
+    }
+}
+.activity-box:hover{
+  .show{
+    opacity: 1;
+    // transition: all 0.5s;
+  }
+}
+.time {
+    font-size: 14px;
+    color: #999;
+  }
+  
+  .bottom {
+    margin-top: 13px;
+    line-height: 30px;
+    // border:1px solid red;
+  }
+
+  .button {
+    padding: 0;
+    float: right;
+  }
+
+  .image {
+    
+    position: absolute;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+    width: 100%;
+    display: block;
+  }

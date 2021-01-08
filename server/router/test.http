@@ -1,0 +1,38 @@
+@url= http://localhost:3001/api
+@json = Content-Type: application/json
+
+
+
+###
+
+get {{url}}
+# {
+#     "name": "sample",
+#     "time": "Wed, 21 Oct 2015 18:27:50 GMT"
+# }
+
+
+### 注册
+post {{url}}/register
+
+{
+    "username":"user1",
+    "passwore":"12346",
+}
+
+### 登录
+post {{url}}/login
+
+{
+    "username":"user1",
+    "passwore":"12346",
+}
+
+
+###
+post {{url}}/test
+
+{
+    "username":"user1",
+    "passwore":"12346",
+}
