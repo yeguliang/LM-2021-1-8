@@ -6,26 +6,26 @@ const path = require('path')
 const session = require('express-session')
 const expressJwt = require('express-jwt');
 const parseurl = require('parseurl')
-const {signkey} = require('./config/config')
+const {signkey}= require('./config/config')
 // const routes2 = require('./router/index2.js')
 const { verToken } = require('./utils/toke');
+require('dotenv').config()
 
-// 端口号
-const port = 3001
 
 app.use((req, res, next)=>{
+	// console.log('tokendata',signkey)
 	let token = req.headers['authorization'];
 	let {query,body} = req
-	req.paramBody =  {...query,...body}
+	req.param_body =  {...query,...body}
 	if(!token){
 		return next();
 	}else{
 		verToken(token).then((data)=> {
 			req.user_info = data;
-			// console.log('tokendata',signkey)
+			// console.log('tokendata',process.env.APP_KEY)
 			return next();
 		}).catch((error)=>{
-			console.log(error)
+			// console.log(error)
 			return next();
 		})
 	}
@@ -45,13 +45,14 @@ app.use((err, req, res, next)=>{
 		return res.status(401).send('token失效');
 	}
 });
-app.use(function(err, req, res, next) {
-	// console.error(err.stack);
-	res.status(500).send('Something broke!');
-});
-app.use(function(req, res, next) {
-	res.status(404).send('Sorry cant find that!');
-});
+
+// app.use(function(err, req, res, next) {
+// 	// console.error(err.stack);
+// 	res.status(500).send('Something broke!');
+// });
+// app.use(function(req, res, next) {
+// 	res.status(404).send('Sorry cant find that!');
+// });
 
 
 // session
@@ -103,6 +104,6 @@ app.use(routes)
 app.use("/pubilc/",express.static(path.join(__dirname,'./public/')))  
 
 // 监听
-app.listen(port,()=>{
-    console.log(`APP URL: http://127.0.0.1:${port}`)
+app.listen(process.env.PORT,()=>{
+    console.log(`APP URL: http://${process.env.HOST}:${process.env.PORT}`)
 })

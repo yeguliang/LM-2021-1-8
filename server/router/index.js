@@ -119,8 +119,5 @@ router.all('*', function(req, res, next) {
 Object.values(user).map((item)=>item)
 Object.values(article).map((item)=>item)
 
-router.get('/', function(req, res) {
-  res.json({ message: req.decoded._doc.name+'  欢迎使用API' });
-});
 
 module.exports = router
