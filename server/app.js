@@ -6,7 +6,6 @@ const path = require('path')
 const session = require('express-session')
 const expressJwt = require('express-jwt');
 const parseurl = require('parseurl')
-const {signkey}= require('./config/config')
 // const routes2 = require('./router/index2.js')
 const { verToken } = require('./utils/toke');
 require('dotenv').config()
@@ -16,7 +15,7 @@ app.use((req, res, next)=>{
 	// console.log('tokendata',signkey)
 	let token = req.headers['authorization'];
 	let {query,body} = req
-	req.param_body =  {...query,...body}
+	// req.param_body =  {...query,...body}
 	if(!token){
 		return next();
 	}else{
@@ -33,7 +32,7 @@ app.use((req, res, next)=>{
 
 //验证token是否过期并规定哪些路由不用验证
 app.use(expressJwt({
-	secret: signkey
+	secret: process.env.APP_KEY
 }).unless({
 	path: ['/api/login','/api/register']//除了这个地址，其他的URL都需要验证
 }));
@@ -57,7 +56,7 @@ app.use((err, req, res, next)=>{
 
 // session
 app.use(session({
-    secret: signkey,
+    secret: process.env.APP_KEY,
     // 加密字符串在原有的字符串上面拼接
     // 安全
     resave: false,
@@ -92,7 +91,10 @@ app.use(bodyParser.json())
 
 // 路由
 // routes(app)
-app.use(routes)
+
+routes.forEach((item)=>{
+	return app.use(item)
+})
 // app.use(routes2)
 
 // 静态资源

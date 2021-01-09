@@ -27,7 +27,7 @@ exports.find = async (id,type) => {
     let db = await getDate()
     return _.find(db[type],{id:id})
 }
-exports.query = async (type) => {
+exports.queryList = async (type) => {
     let db = await getDate()
     return _.filter(db[type],{is_hidden:false})
 }
