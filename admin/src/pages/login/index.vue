@@ -43,19 +43,19 @@ export default {
   },
   methods: {
     async submit() {
-      if (!this.ObjInput.email || !this.ObjInput.pas ||!this.ObjInput.emailreg ) {
-        this.$message({
-          message: "请确认您的邮箱、密码",
-          type: "warning",
-        });
-        return
-      } 
-      let password = tools.time33Hash(this.ObjInput.pas)
-      let userInfo = await login({data:{username:this.ObjInput.email,password}})
-      if(userInfo.ok === 1){
-        Storage.setStorage('token',userInfo.data.token)
-        this.$router.push('/home')
-      }
+      // if (!this.ObjInput.email || !this.ObjInput.pas ||!this.ObjInput.emailreg ) {
+      //   this.$message({
+      //     message: "请确认您的邮箱、密码",
+      //     type: "warning",
+      //   });
+      //   return
+      // } 
+      // let password = tools.time33Hash(this.ObjInput.pas)
+      let userInfo = await login({data:{title:1111,des:'55555'}})
+      // if(userInfo.ok === 1){
+      //   Storage.setStorage('token',userInfo.data.token)
+      //   this.$router.push('/home')
+      // }
       // console.log(userInfo)
     },
     switchModel(event) {

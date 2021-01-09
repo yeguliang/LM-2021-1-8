@@ -1,5 +1,13 @@
 const fs = require('fs')
-const File = require('./doFile')
+const express = require('express')
+const router = express.Router()
+const {query,create,updata,find,remove} = require('./doFile');
+const _ = require('lodash');
+const moment = require('moment');
+const { verToken,setToken} = require('./../utils/toke');
+const user = require('./user/user')
+const article = require('./article/article')
+
 // module.exports = (app)=>{
 // // 数据格式utf-8 or toString()
 // app.get('/',(req,res)=>{
@@ -12,9 +20,7 @@ const File = require('./doFile')
 //   })
 // })
 // }
-const express = require('express')
 
-const router = express.Router()
 
 
 // 本地数据处理
@@ -99,6 +105,7 @@ const router = express.Router()
 //       })
 //     } catch (e) {}
 // }
+
 // router.get('/:path/:file', renderPage)
 router.all('*', function(req, res, next) {
   // res.header("Access-Control-Allow-Origin", "*");
@@ -109,21 +116,11 @@ router.all('*', function(req, res, next) {
   next();
 });
 
-// 登录注册
-router.get('/api',(req,res)=>{
-  res.send('ok')
-})
+Object.values(user).map((item)=>item)
+Object.values(article).map((item)=>item)
 
-router.post('/api/register',(req,res)=>{
-  res.send(req.body)
-  console.log(req,res)
-})
+router.get('/', function(req, res) {
+  res.json({ message: req.decoded._doc.name+'  欢迎使用API' });
+});
 
-router.post('/api/login',(req,res)=>{
-  res.send(req.body)
-})
-router.post('/api/test',(req,res)=>{
-  res.send(req.body)
-
-})
 module.exports = router
