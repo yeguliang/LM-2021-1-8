@@ -9,11 +9,15 @@ const {setToken} = require('./../../utils/toke');
     article.get('/api/article',(async (req,res) => {
         let {query,user_info} = req
         let list = await queryList("article")
+        let user_list = await queryList("user")
         if(query.id){
             query.id *= 1
             res.send(_.find(list,{id:query.id}) || {})
         }
-        res.send(list)
+        res.send(list.map((item)=>{
+            item.user_info = _.find(user_list,{id:item.user_id})
+            return item
+        }))
     })),
    // 个人文章
     article.get('/api/user/article',(async (req,res) => {
