@@ -10,35 +10,42 @@ const {setToken} = require('./../../utils/toke');
         let {query,user_info} = req
         let list = await queryList("article")
         let user_list = await queryList("user")
+        list = list.filter((item)=>{
+            return item.type === query.type
+        }).map((item)=>{
+            item.user_info = _.find(user_list,{id:item.user_id})
+            return item
+        })
         if(query.id){
             query.id *= 1
             res.send(_.find(list,{id:query.id}) || {})
+            return
         }
-        res.send(list.map((item)=>{
-            item.user_info = _.find(user_list,{id:item.user_id})
-            return item
-        }))
+        res.send(list)
     })),
-   // 个人文章
-    article.get('/api/user/article',(async (req,res) => {
-        let list = await queryList("article")
-        const {user_info} = req
-        res.send(_.filter(list,{user_id:user_info._id}))
-        })),
     // 个人文章
     article.get('/api/user/article',(async (req,res) => {
+        const {query,user_info} = req
         let list = await queryList("article")
-        const {user_info} = req
-        res.send(_.filter(list,{user_id:user_info._id}))
-    })),
+        let user_list = await queryList("user")
+        list = _.filter(list,{user_id:user_info._id})
+        if(query.type){
+            list = _.filter(list,{type:query.type})
+        }
+        list = list.map((item)=>{
+            item.user_info = _.find(user_list,{id:item.user_id})
+            return item
+        })
+        res.send(list)
+        })),
     // 创建文章
     article.post('/api/article',(async (req,res) => {
-        const {body:{title="",des="",is_hidden=false,create_at = moment(new Date()).format(),updata_at=moment(new Date()).format()},user_info} = req
+        const {body:{title="",des="",type,is_hidden=false,create_at = moment(new Date()).format(),updata_at=moment(new Date()).format()},user_info} = req
         if(!title || !des){ 
             res.send('参数错误!')
             return
         }
-        let list = await create({title,des,is_hidden,create_at,updata_at,user_id:user_info._id},"article")
+        let list = await create({title,des,is_hidden,create_at,updata_at,user_id:user_info._id,type},"article")
         res.send(list)
     })),
     // 更新文章
