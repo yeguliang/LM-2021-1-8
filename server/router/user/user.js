@@ -4,8 +4,9 @@ const {queryList,create,updata,find,remove} = require('./../doFile');
 const _ = require('lodash');
 const moment = require('moment');
 const {setToken} = require('./../../utils/toke');
+const asyncHandler = require('./../../utils/asyncHandler')
  // 注册
- user.post('/api/register',(async (req,res)=>{
+ user.post('/api/register',asyncHandler(async (req,res)=>{
     const {body:{name="",psd="",is_hidden=false,create_at = moment(new Date()).format(),updata_at=moment(new Date()).format()}} = req
     if(!name || !psd){ 
     res.send('参数错误!')
@@ -22,7 +23,7 @@ const {setToken} = require('./../../utils/toke');
     res.send(list[list.length-1])
 })),
 // 登录
-user.post('/api/login',(async (req,res)=>{
+user.post('/api/login',asyncHandler(async (req,res)=>{
     const {body:{name="",psd=""}} = req
     if(!psd || !name){ 
     res.send('参数错误!')

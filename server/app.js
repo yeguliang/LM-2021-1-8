@@ -43,6 +43,7 @@ app.use((err, req, res, next)=>{
 	if (err.status == 401) {
 		return res.status(401).send('token失效');
 	}
+	return res.status(500).send('服务端错误！');
 });
 
 // app.use(function(err, req, res, next) {
