@@ -6,11 +6,12 @@ const path = require('path')
 const session = require('express-session')
 const expressJwt = require('express-jwt');
 const parseurl = require('parseurl')
+const cors = require('cors'); 
 // const routes2 = require('./router/index2.js')
 const { verToken } = require('./utils/toke');
 require('dotenv').config()
 
-
+app.use(cors()); 
 app.use((req, res, next)=>{
 	// console.log('tokendata',signkey)
 	let token = req.headers['authorization'];
