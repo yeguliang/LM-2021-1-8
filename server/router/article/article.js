@@ -11,7 +11,7 @@ const {setToken} = require('./../../utils/toke');
         let {query,user_info} = req
         let list = await queryList("article")
         let user_list = await queryList("user")
-        throw new Error('456456')
+        //throw new Error('456456')
         list = list.filter((item)=>{
             return item.type === query.type
         }).map((item)=>{
