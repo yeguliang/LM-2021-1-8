@@ -3,7 +3,7 @@ import Storage from '@/utils/storage';
 import router from './../route/index'
 const instance = Axios.create({
 	// baseURL: process.env.VUE_APP_URL === 'development'?'http://api.cloudmk.club:3000':'http://api.cloudmk.club:3000',
-	baseURL: process.env.VUE_APP_URL === 'development'?'http://127.0.0.1:3001':'http://127.0.0.1:3000',
+	baseURL: process.env.VUE_APP_URL === 'development'?'http://127.0.0.1:3001':'http://127.0.0.1:3001',
 	timeout: 3000,
   });
 

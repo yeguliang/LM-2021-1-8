@@ -10,5 +10,5 @@ export function login({data}){
    return  POST({api:'/api/article',data})
 }
 export function getEmailCode({data}){
-   return  POST({api:'/operator/emailcode',data})
+   return  GET({api:'/api/login/mailer',data})
 }

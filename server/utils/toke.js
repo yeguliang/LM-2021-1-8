@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-require('dotenv').config()
 exports.setToken = function(username,userid){
 	return new Promise((resolve,reject)=>{
         // console.log('process.env.APP_KEY',process.env.APP_KEY)

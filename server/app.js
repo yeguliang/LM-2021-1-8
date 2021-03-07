@@ -1,5 +1,5 @@
 const express = require('express')
-const app = express()
+
 const routes = require('./router/index.js')
 const bodyParser = require('body-parser')
 const path = require('path')
@@ -7,11 +7,22 @@ const session = require('express-session')
 const expressJwt = require('express-jwt');
 const parseurl = require('parseurl')
 const cors = require('cors'); 
+const logger = require('morgan');
+const xss = require('xss-clean')
+const helmet = require('helmet')
 // const routes2 = require('./router/index2.js')
 const { verToken } = require('./utils/toke');
 require('dotenv').config()
+const hpp = require('hpp')
+const app = express()
 
+// Prevent XSS attacks
+// Set security headers
+app.use(helmet())
+app.use(xss())
 app.use(cors()); 
+app.use(hpp())
+app.use(logger('dev'));
 app.use((req, res, next)=>{
 	// console.log('tokendata',signkey)
 	let token = req.headers['authorization'];
@@ -35,25 +46,8 @@ app.use((req, res, next)=>{
 app.use(expressJwt({
 	secret: process.env.APP_KEY
 }).unless({
-	path: ['/api/login','/api/register']//除了这个地址，其他的URL都需要验证
+	path: ['/api/login','/api/register','/api/login/mailer', '/api/reset']//除了这个地址，其他的URL都需要验证
 }));
-
-//当token失效返回提示信息
-app.use((err, req, res, next)=>{
-	// console.log(err)
-	if (err.status == 401) {
-		return res.status(401).send('token失效');
-	}
-	return res.status(500).send('服务端错误！');
-});
-
-// app.use(function(err, req, res, next) {
-// 	// console.error(err.stack);
-// 	res.status(500).send('Something broke!');
-// });
-// app.use(function(req, res, next) {
-// 	res.status(404).send('Sorry cant find that!');
-// });
 
 
 // session
@@ -93,12 +87,19 @@ app.use(bodyParser.json())
 
 // 路由
 // routes(app)
-
 routes.forEach((item)=>{
 	return app.use(item)
 })
 // app.use(routes2)
 
+//当token失效返回提示信息
+app.use((err, req, res, next)=>{
+	console.log(err)
+	if (err.status == 401) {
+		return res.status(401).send('token失效');
+	}
+	return res.status(500).send('服务端错误！');
+});
 // 静态资源
 // 相对路径
 // app.use("/pubilc/",express.static('./public/')) 
