@@ -53,4 +53,10 @@ export default {
         }
         this.restore();
     },
+    removeSession(key) {
+      return sessionStorage.removeItem(key)
+    },
+    clear() {
+      sessionStorage.clear()
+    }
 };

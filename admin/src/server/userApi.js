@@ -1,14 +1,30 @@
-import {GET,PUT,DELETE,POST} from './../utils/request'
+import {request} from 'utils/request.js'
 
-export function register({data}){
-   return  POST({api:'/operator/regist',data})
+export function login({data}) {
+  return request({
+      url: '/api/login',
+      method: 'post',
+      data
+  })
 }
-// export function login({data}){
-//    return  POST({api:'/operator/login',data})
-// }
-export function login({data}){
-   return  POST({api:'/api/article',data})
+export function repassword({data}) {
+  return request({
+      url: '/api/reset',
+      method: 'put',
+      data
+  })
 }
-export function getEmailCode({data}){
-   return  GET({api:'/api/login/mailer',data})
+export function getVcode({params}) {
+  return request({
+      url: '/api/login/mailer',
+      method: 'get',
+      params
+  })
+}
+export function register({data}) {
+  return request({
+      url: '/api/register',
+      method: 'post',
+      data
+  })
 }

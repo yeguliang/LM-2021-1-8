@@ -1,0 +1,8 @@
+export const USER_INFO = 'user_info'
+export const ALL_ARTICLES = 'all_articles'
+export const LOOK_ARTICLES = 'look_articles'
+export const CREATE_ARTICLE = 'create_article'
+export const DELETE_ARTICLE = 'delete_article'
+export const DELETE_COLLECT_ARTICLE = 'delete_collect_article'
+export const UPDATE_ARTICLE = 'update_article'
+export const GET_ARTICLE = 'get_article'
