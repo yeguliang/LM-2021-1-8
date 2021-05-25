@@ -10,6 +10,7 @@ const cors = require('cors');
 const logger = require('morgan');
 const xss = require('xss-clean')
 const helmet = require('helmet')
+const multer = require('multer');
 // const routes2 = require('./router/index2.js')
 const { verToken } = require('./utils/toke');
 require('dotenv').config()
@@ -23,31 +24,31 @@ app.use(xss())
 app.use(cors()); 
 app.use(hpp())
 app.use(logger('dev'));
-app.use((req, res, next)=>{
-	// console.log('tokendata',signkey)
-	let token = req.headers['authorization'];
-	let {query,body} = req
-	// req.param_body =  {...query,...body}
-	if(!token){
-		return next();
-	}else{
-		verToken(token).then((data)=> {
-			req.user_info = data;
-			// console.log('tokendata',process.env.APP_KEY)
-			return next();
-		}).catch((error)=>{
-			// console.log(error)
-			return next();
-		})
-	}
-});
+// app.use((req, res, next)=>{
+// 	// console.log('tokendata',signkey)
+// 	let token = req.headers['authorization'];
+// 	let {query,body} = req
+// 	// req.param_body =  {...query,...body}
+// 	if(!token){
+// 		return next();
+// 	}else{
+// 		verToken(token).then((data)=> {
+// 			req.user_info = data;
+// 			// console.log('tokendata',process.env.APP_KEY)
+// 			return next();
+// 		}).catch((error)=>{
+// 			// console.log(error)
+// 			return next();
+// 		})
+// 	}
+// });
 
-//验证token是否过期并规定哪些路由不用验证
-app.use(expressJwt({
-	secret: process.env.APP_KEY
-}).unless({
-	path: ['/api/login','/api/register','/api/login/mailer', '/api/reset']//除了这个地址，其他的URL都需要验证
-}));
+// //验证token是否过期并规定哪些路由不用验证
+// app.use(expressJwt({
+// 	secret: process.env.APP_KEY
+// }).unless({
+// 	path: ['/public','/public/1621914963450.mp4','/api/login','/api/register','/api/login/mailer', '/api/reset']//除了这个地址，其他的URL都需要验证
+// }));
 
 
 // session
@@ -85,6 +86,13 @@ app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
 
 
+// multer 用于解析post文件  multipart/form-data
+// var objMulter = multer({dest: './dist'}).array('file');
+// 或者 var objMulter = multer({dest: './dist'}).any();
+//此处的array('file')对应html部分的name
+app.use(multer({dest: './dist'}).array('file')); 
+// app.use(objMulter );
+
 // 路由
 // routes(app)
 routes.forEach((item)=>{
@@ -106,7 +114,9 @@ app.use((err, req, res, next)=>{
 // __dirname:动态获取当前文件模块所属目录的绝对路径（文件父级绝对的路径）
 // __filename：动态获取当前文件的绝对的路径（文件绝对的路径）
 // 绝对路径 
-app.use("/pubilc/",express.static(path.join(__dirname,'./public/')))  
+// app.use(express.static(path.join(__dirname, 'public'), { maxAge: '7d' }))
+app.use(express.static(path.join(__dirname, 'public'), {}))
+// app.use("/pubilc",express.static(path.join(__dirname,'./public')))
 
 // 监听
 app.listen(process.env.PORT,()=>{
